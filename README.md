@@ -46,18 +46,19 @@ v. SQLite Local Database
 **3. App Architecture Diagram (Navigation Flow)** 
  
  
-Home Page 
-     | 
-     V 
-Dashboard Page 
-     | 
-     V 
-Trip List Page 
-   /       \ 
-Add Trip   Trip Details 
-              | 
-              V 
-         Add Expense 
+Home Page
+     |
+     V
+Dashboard Page
+     |
+     V
+Trip List Page
+   /       \
+Add Trip   Trip Details
+              |
+              V
+         Add Expense
+ 
 **Navigation Summary** 
 ● Home Page: Shows greeting, stats, featured destinations, recent trips 
 ● Trip List Page: Shows all trips with image banners & progress bars 
