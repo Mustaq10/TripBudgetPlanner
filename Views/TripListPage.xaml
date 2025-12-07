@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TripBudgetPlanner.ViewModels"
+             x:Class="TripBudgetPlanner.Views.TripListPage"
+             x:Name="TripListPageRoot"
+             BackgroundColor="#F5F5F5"
+             Title="Your Trips">
+
+    <ContentPage.BindingContext>
+        <vm:TripListViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Label Text="Your Trips"
+                   FontSize="30"
+                   FontAttributes="Bold"
+                   TextColor="#222" />
+
+            <!-- TRIP CARDS -->
+            <CollectionView ItemsSource="{Binding Trips}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Frame CornerRadius="22"
+                               BackgroundColor="White"
+                               HasShadow="True"
+                               Padding="0"
+                               Margin="0,10">
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding BindingContext.OpenTripCommand, Source={x:Reference TripListPageRoot}}"
+                                    CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+
+                            <Grid RowSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="140"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- TOP IMAGE + TITLE -->
+                                <Grid Grid.Row="0">
+                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill"/>
+                                    <BoxView Background="#80000000" />
+                                    <Label Text="{Binding Name}"
+                                           FontSize="22"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           Margin="20"
+                                           VerticalOptions="Center" />
+                                </Grid>
+
+                                <!-- DATE RANGE -->
+                                <Label Grid.Row="1"
+                                       Text="{Binding DateRange}"
+                                       FontSize="14"
+                                       TextColor="#777"
+                                       Margin="20,0"/>
+
+                                <!-- BUDGET + SPENT -->
+                                <Grid Grid.Row="2"
+                                      ColumnDefinitions="*,Auto"
+                                      Margin="20,0">
+                                    <Label Text="{Binding Budget, StringFormat='Budget: ${0:F0}'}"
+                                           FontSize="16"
+                                           TextColor="#0078FF"/>
+
+                                    <Label Text="{Binding TotalSpentText}"
+                                           FontSize="16"
+                                           TextColor="#E63946"
+                                           Grid.Column="1"/>
+                                </Grid>
+
+                                <!-- PROGRESS BAR -->
+                                <Grid Grid.Row="3" Margin="20,0,20,15" HeightRequest="10">
+                                    <BoxView BackgroundColor="#DDDDDD"
+                                             HorizontalOptions="Fill"/>
+
+                                    <BoxView BackgroundColor="#0078FF"
+                                             HorizontalOptions="Start"
+                                             WidthRequest="{Binding ProgressBarWidth}" />
+                                </Grid>
+
+                            </Grid>
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <BoxView HeightRequest="80" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

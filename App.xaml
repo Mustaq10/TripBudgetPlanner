@@ -1,14 +1,34 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:TripBudgetPlanner"
              x:Class="TripBudgetPlanner.App">
+
     <Application.Resources>
+
+        <!-- Global Styles -->
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Primary Color -->
+            <Color x:Key="PrimaryColor">#0078ff</Color>
+            <Color x:Key="TextColorDark">#222</Color>
+            <Color x:Key="TextColorLight">#666</Color>
+            <Color x:Key="BackgroundGray">#F5F5F5</Color>
+
+            <!-- Default Label Styles -->
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextColorDark}" />
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+            </Style>
+
+            <!-- Default Button Styles -->
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="OpenSansSemibold" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HeightRequest" Value="48" />
+            </Style>
+
         </ResourceDictionary>
+
     </Application.Resources>
+
 </Application>

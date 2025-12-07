@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:TripBudgetPlanner.ViewModels"
+    x:Class="TripBudgetPlanner.Views.HomePage"
+    Title="Home"
+    BackgroundColor="#F5F5F5">
+
+    <ContentPage.BindingContext>
+        <vm:HomeViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+
+        <!-- Top banner + profile -->
+        <Grid RowDefinitions="Auto,Auto" Margin="0,0" Padding="0">
+            <!-- Banner image -->
+            <Image
+                Source="{Binding BannerImageUrl}"
+                Aspect="AspectFit"
+                Opacity="0.75" />
+
+            <!-- Overlay gradient + content -->
+            <Grid BackgroundColor="#80000000">
+                <Grid Padding="20" ColumnDefinitions="*,Auto">
+                    <!-- Left: Greeting + stats -->
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Start">
+                        <Label Text="{Binding Greeting}" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="Ready for your next trip?" FontSize="14" FontAttributes="Bold" TextColor="#E7E7E7"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!-- Main content stack -->
+        <ScrollView Margin="0,170,0,0">
+            <VerticalStackLayout Padding="20" Spacing="18">
+
+                <!-- Quick Stats Row -->
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="12">
+                    <Frame CornerRadius="12" Padding="12" BackgroundColor="White" HasShadow="True">
+                        <VerticalStackLayout>
+                            <Label Text="Total Trips" FontSize="14" TextColor="#666"/>
+                            <Label Text="{Binding TotalTrips}" FontSize="26" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame CornerRadius="12" Padding="12" BackgroundColor="White" HasShadow="True">
+                        <VerticalStackLayout>
+                            <Label Text="Total Expenses" FontSize="14" TextColor="#666"/>
+                            <Label Text="{Binding TotalExpenses, StringFormat='${0:F2}'}" FontSize="26" FontAttributes="Bold" TextColor="#e63946"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <Frame CornerRadius="12" Padding="12" BackgroundColor="White" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Label Text="Total Budget Planned" FontSize="14" TextColor="#666"/>
+                        <Label Text="{Binding TotalBudget, StringFormat='${0:F2}'}" FontSize="20" FontAttributes="Bold" TextColor="#2a9d8f"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Slider-style highlight card (Carousel) -->
+                <Label Text="Featured Destinations" FontSize="18" FontAttributes="Bold" />
+                <CarouselView ItemsSource="{Binding FeaturedDestinations}" PeekAreaInsets="30" HeightRequest="160" 
+                              IndicatorView="carouselIndicator">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame CornerRadius="14" Padding="0" HasShadow="True" Margin="10,0,10,10" BackgroundColor="White">
+                                <Grid>
+                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill" HeightRequest="160"/>
+                                    <StackLayout Orientation="Vertical" VerticalOptions="End" Padding="12" BackgroundColor="#80000000">
+                                        <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="White"/>
+                                        <Label Text="{Binding Subtitle}" FontSize="12" TextColor="#F0F0F0"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                <IndicatorView x:Name="carouselIndicator" HorizontalOptions="Center" />
+
+                <!-- Recent Trips list -->
+                <Label Text="Recent Trips" FontSize="18" FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding RecentTrips}" SelectionMode="Single" SelectedItem="{Binding SelectedRecentTrip, Mode=TwoWay}">
+                    <CollectionView.ItemTemplate>
+                        <!-- Removed x:DataType to fix XHR0008, XHR0006, XLS0431, XLS0414 -->
+                        <DataTemplate>
+                            <Border StrokeShape="RoundRectangle 12"
+        Padding="12"
+        BackgroundColor="White"
+        Margin="0,8,0,0"
+        Shadow="True">
+
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" />
+                                        <Label Text="{Binding StartDate, StringFormat='Start: {0:MMM dd, yyyy}'}" FontSize="12" TextColor="#888" />
+                                    </VerticalStackLayout>
+
+                                    <Label Text="{Binding Budget, StringFormat='${0:F2}'}" 
+                   HorizontalOptions="End"  
+                   VerticalOptions="Center"
+                   Grid.Column="1"/>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- spacer bottom so FAB doesn't overlap content -->
+                <BoxView HeightRequest="90" Color="Transparent" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Floating Add Trip Button (animated in code-behind) -->
+        <Button
+            x:Name="FabAddTrip"
+            Text="+"
+            FontSize="32"
+            WidthRequest="68"
+            HeightRequest="68"
+            CornerRadius="34"
+            BackgroundColor="{StaticResource PrimaryColor}"
+            TextColor="White"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Margin="20"
+            Clicked="FabAddTrip_Clicked" />
+
+    </Grid>
+</ContentPage>

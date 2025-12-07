@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:graphics="clr-namespace:Microsoft.Maui.Graphics;assembly=Microsoft.Maui.Graphics"
+             x:Class="TripBudgetPlanner.Views.DashboardPage"
+             BackgroundColor="#F5F5F5"
+             Title="Dashboard">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- HEADER -->
+            <Frame BackgroundColor="#0078FF"
+                   CornerRadius="20"
+                   Padding="20"
+                   HasShadow="True">
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Dashboard"
+                           FontSize="28"
+                           TextColor="White"
+                           FontAttributes="Bold"/>
+                    <Label Text="Your trip statistics and insights"
+                           FontSize="14"
+                           TextColor="#E3E3E3"/>
+                </VerticalStackLayout>
+
+            </Frame>
+
+            <!-- STAT CARDS -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+
+                <Frame CornerRadius="15" Padding="15" BackgroundColor="White" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Label Text="Total Trips" FontSize="14" TextColor="#666"/>
+                        <Label Text="{Binding TotalTrips}" FontSize="28" FontAttributes="Bold" TextColor="#0078ff"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="15" Padding="15" BackgroundColor="White" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Label Text="Total Expenses" FontSize="14" TextColor="#666"/>
+                        <Label Text="{Binding TotalExpenses, StringFormat='${0:F2}'}"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="#E63946"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </Grid>
+
+            <!-- Total Budget -->
+            <Frame CornerRadius="15" Padding="20" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout>
+                    <Label Text="Total Budget" FontSize="14" TextColor="#666"/>
+                    <Label Text="{Binding TotalBudget, StringFormat='${0:F2}'}"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#2A9D8F" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- CATEGORY BREAKDOWN -->
+            <Frame CornerRadius="20" Padding="20" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="20">
+
+                    <Label Text="Expenses by Category"
+                           FontSize="20"
+                           FontAttributes="Bold"/>
+
+                    <CollectionView ItemsSource="{Binding CategoryBars}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout Spacing="5">
+
+                                    <!-- Category Label -->
+                                    <HorizontalStackLayout>
+                                        <BoxView WidthRequest="12"
+                                                 HeightRequest="12"
+                                                 BackgroundColor="{Binding Color}" />
+                                        <Label Text="{Binding Label}"
+                                               FontSize="14"
+                                               Margin="8,0" />
+                                    </HorizontalStackLayout>
+
+                                    <!-- FIXED PROGRESS BAR (NO CORNER RADIUS) -->
+                                    <ProgressBar Progress="{Binding Progress}"
+                                                 HeightRequest="12"
+                                                 ProgressColor="{Binding Color}"
+                                                 BackgroundColor="#DDDDDD" />
+
+                                    <!-- Amount -->
+                                    <Label Text="{Binding AmountText}"
+                                           FontSize="12"
+                                           TextColor="#777" />
+
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- TOP 3 EXPENSIVE TRIPS -->
+            <Label Text="Top 3 Expensive Trips"
+                   FontSize="20"
+                   FontAttributes="Bold"/>
+
+            <CollectionView ItemsSource="{Binding TopTrips}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="15" Padding="15" BackgroundColor="White" HasShadow="True" Margin="0,10,0,0">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"/>
+                                    <Label Text="{Binding TotalSpent, StringFormat='Spent: ${0:F2}'}"
+                                           FontSize="14"
+                                           TextColor="#888"/>
+                                </VerticalStackLayout>
+
+                                <Label Text="{Binding Budget, StringFormat='${0:F2}'}"
+                                       Grid.Column="1"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

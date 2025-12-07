@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TripBudgetPlanner.Views.TripDetailsPage"
+             x:Name="TripDetailsRoot"
+             BackgroundColor="#f0f2f5"
+             Title="Trip Details">
+
+    <Grid>
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!-- Trip Header Card -->
+                <Frame Padding="20"
+                       BackgroundColor="White"
+                       CornerRadius="25"
+                       HasShadow="True">
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="{Binding Trip.Name}"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="#1a1a1a" />
+
+                        <Label Text="{Binding Trip.Budget, StringFormat='Total Budget: ${0}'}"
+                               FontSize="18"
+                               TextColor="#777" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Expense Section Header -->
+                <Label Text="Expenses"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="#1a1a1a"
+                       Margin="0,10,0,0" />
+
+                <!-- Expenses List -->
+                <CollectionView ItemsSource="{Binding Expenses}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White"
+                                   CornerRadius="20"
+                                   Padding="15"
+                                   HasShadow="True">
+
+                                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+
+                                    <!-- Expense Details -->
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Description}"
+                                               FontSize="20"
+                                               TextColor="#333"
+                                               FontAttributes="Bold"/>
+
+                                        <Label Text="{Binding CreatedOn, StringFormat='{0:MMM dd, yyyy}'}"
+                                               FontSize="14"
+                                               TextColor="#888"/>
+                                    </VerticalStackLayout>
+
+                                    <!-- Amount -->
+                                    <Label Text="{Binding Amount, StringFormat='${0:F2}'}"
+                                           Grid.Column="1"
+                                           FontSize="20"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center"
+                                           TextColor="#0078ff"
+                                           FontAttributes="Bold"/>
+
+                                    <!-- DELETE BUTTON -->
+                                    <Button Text="Delete"
+                                            Grid.Column="2"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#E63946"
+                                            FontSize="12"
+                                            WidthRequest="70"
+                                            HeightRequest="60"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center"
+                                            Command="{Binding BindingContext.DeleteExpenseCommand, Source={x:Reference TripDetailsRoot}}"
+                                            CommandParameter="{Binding .}" />
+
+                                </Grid>
+
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Floating Add Expense Button -->
+        <Frame CornerRadius="30"
+               HeightRequest="60"
+               WidthRequest="180"
+               HasShadow="True"
+               BackgroundColor="#0078ff"
+               HorizontalOptions="End"
+               VerticalOptions="End"
+               Margin="20">
+
+            <Button Text="Add Expense"
+                    Command="{Binding AddExpenseCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="18"/>
+        </Frame>
+
+    </Grid>
+
+</ContentPage>
